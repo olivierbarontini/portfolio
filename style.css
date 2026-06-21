@@ -2,11 +2,12 @@
 :root {
   --color-bg: #F2F0EB;
   --color-text: #2C2C2A;
-  --color-muted: #888780;
-  --color-muted-light: #B4B2A9;
+  --color-muted: #686560; /* assombri le 20/06 : 3,16:1 → 5,10:1 (échouait WCAG AA 4.5:1) */
+  --color-muted-light: #6E6A63; /* assombri le 20/06 : 1,86:1 → 4,72:1 (échouait WCAG AA 4.5:1) */
   --color-line: #D3D1C7;
   --color-accent: #D4A017;
   --color-on-accent: #1A1A1A;
+  --color-mark-bg: #E3C881; /* moutarde adoucie (mix accent/fond ~50%) pour le surlignage en clair, moins agressif que l'accent plein */
   --font-mono: 'Space Mono', monospace;
   --font-display: 'Inter', sans-serif;
   --spacing-unit: 8px;
@@ -16,12 +17,14 @@
 [data-theme="dark"] {
   --color-bg: #2C2C2A;
   --color-text: #F2F0EB;
-  --color-muted: #B4B2A9;
-  --color-muted-light: #888780;
+  --color-muted: #B4B2A9; /* déjà conforme (6,58:1), inchangé */
+  --color-muted-light: #ACA99F; /* assombri le 20/06 : 3,88:1 → 5,95:1 (échouait WCAG AA 4.5:1) */
   --color-line: #4A4944;
+  --color-mark-bg: var(--color-accent); /* moutarde pleine en sombre : meilleur contraste sur fond foncé, pas d'effet "agressif" comme en clair */
 }
 
 body { transition: background-color 0.2s ease, color 0.2s ease; }
+
 
 /* ===================== RESET DE BASE ===================== */
 *, *::before, *::after { box-sizing: border-box; }
@@ -34,7 +37,7 @@ body {
   font-family: var(--font-mono);
   font-weight: 400;
   line-height: 1.7;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 h1, h2, h3 { font-family: var(--font-mono); font-weight: 700; margin: 0; line-height: 1.1; }
@@ -63,7 +66,7 @@ button { font-family: var(--font-mono); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .path-o, .path-b1, .path-b2, .path-b3, .dot-o, .dot-b,
-  .l1, .l2, .l3, .l4, .l5, .l6, .l7, .l8, .l9 {
+  .l1, .l2, .l3, .l4, .l5, .l6, .l7, .l8, .l9, .l10, .l11, .l12, .l13, .l14 {
     animation: none !important;
     stroke-dashoffset: 0 !important;
     opacity: 1 !important;
@@ -83,7 +86,7 @@ button { font-family: var(--font-mono); }
   border-radius: var(--border-radius);
   color: var(--color-muted);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 0.625rem;
   letter-spacing: 0.1em;
   padding: 6px 10px;
   cursor: pointer;
@@ -93,7 +96,10 @@ button { font-family: var(--font-mono); }
 /* ===================== HERO — MOBILE (PAR DÉFAUT) ===================== */
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 100vh; /* repli pour navigateurs sans support dvh */
+  min-height: 100dvh; /* hauteur réelle visible : évite le piège classique de la barre
+                          d'adresse mobile qui rétrécit la fenêtre après le 1er chargement
+                          (100vh seul peut alors dépasser l'écran réellement visible) */
   display: flex;
   flex-direction: column;
 }
@@ -105,10 +111,8 @@ button { font-family: var(--font-mono); }
   padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2);
 }
 
-.site-name {
-  font-size: 9px;
-  letter-spacing: 0.18em;
-  font-weight: 700;
+.hero-top-bar .theme-toggle {
+  font-size: 0.5625rem;
 }
 
 .burger {
@@ -141,7 +145,7 @@ button { font-family: var(--font-mono); }
   position: absolute;
   top: calc(var(--spacing-unit) * 3);
   right: calc(var(--spacing-unit) * 3);
-  font-size: 18px;
+  font-size: 1.125rem;
   color: var(--color-muted);
   background: none;
   border: none;
@@ -151,22 +155,20 @@ button { font-family: var(--font-mono); }
 .hero-nav ul { display: flex; flex-direction: column; gap: calc(var(--spacing-unit) * 4); }
 
 .hero-nav a {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   display: flex;
   align-items: baseline;
   gap: calc(var(--spacing-unit) * 1.5);
 }
-.nav-num { font-size: 11px; font-weight: 400; color: var(--color-muted-light); }
+.nav-num { font-size: 0.6875rem; font-weight: 400; color: var(--color-muted-light); }
 
 .hero-nav a:hover, .hero-nav a:focus-visible { color: var(--color-accent); }
 
 .hero-titre-heure {
-  text-align: center;
-  padding: calc(var(--spacing-unit)) calc(var(--spacing-unit) * 3) 0;
+  display: none; /* heure/date réservées au desktop, voir media query 900px+ */
 }
-.hero-titre { font-size: 8px; letter-spacing: 0.12em; color: var(--color-muted); font-weight: 400; }
 .hero-heure, .hero-date { display: none; } /* réduit/supprimé sur mobile */
 
 .hero-logo { display: flex; justify-content: center; padding: calc(var(--spacing-unit) * 3) 0 calc(var(--spacing-unit) * 2); }
@@ -174,7 +176,7 @@ button { font-family: var(--font-mono); }
 
 .hero-tagline {
   text-align: center;
-  font-size: 10px;
+  font-size: 0.625rem;
   letter-spacing: 0.08em;
   color: var(--color-muted);
   font-style: italic;
@@ -189,15 +191,15 @@ button { font-family: var(--font-mono); }
   padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2);
 }
 .hero-projets-nav a { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.proj-num { font-family: var(--font-display); font-size: 42px; font-weight: 800; line-height: 1; }
+.proj-num { font-family: var(--font-display); font-size: 2.625rem; font-weight: 800; line-height: 1; }
 .proj-line { width: 36px; height: 0.5px; background: var(--color-line); }
-.proj-lbl { font-size: 7px; letter-spacing: 0.1em; color: var(--color-muted-light); text-align: center; }
+.proj-lbl { font-size: 0.4375rem; letter-spacing: 0.1em; color: var(--color-muted-light); text-align: center; }
 .hero-projets-nav a:hover .proj-num,
 .hero-projets-nav a:focus-visible .proj-num { color: var(--color-accent); }
 
 .scroll-hint {
   text-align: center;
-  font-size: 8px;
+  font-size: 0.5rem;
   letter-spacing: 0.2em;
   color: var(--color-muted-light);
   padding: calc(var(--spacing-unit)) 0 calc(var(--spacing-unit) * 3);
@@ -205,7 +207,7 @@ button { font-family: var(--font-mono); }
 }
 
 /* ===================== LOGO O.B. — ANIMATION CSS PURE ===================== */
-/* Tracé exact validé hier : O (0.3s→1.7s) → point → B en 3 segments → point → "barontini" lettre par lettre.
+/* Tracé exact validé le 18/06 : O (0.3s→1.7s) → point → B en 3 segments → point → "développeur web" lettre par lettre.
    Fonctionne sans JS (contrairement au menu) : pure CSS, donc jamais de logo invisible si le script échoue. */
 svg .logo-path { fill: none; stroke: var(--color-text); }
 svg .logo-letters text { font-family: var(--font-mono); font-weight: 700; fill: none; stroke: var(--color-text); }
@@ -228,6 +230,11 @@ svg .logo-letters text { font-family: var(--font-mono); font-weight: 700; fill: 
   animation: drawS 0.6s ease forwards 3.1s, fillIn 0.4s ease forwards 3.7s;
 }
 .dot-b { fill: var(--color-text); stroke: none; opacity: 0; animation: showD 0.2s ease forwards 3.8s; }
+@keyframes drawS { from { stroke-dashoffset: 340; } to { stroke-dashoffset: 0; } }
+@keyframes showD { to { opacity: 1; } }
+@keyframes showL { to { opacity: 1; } }
+@keyframes fillIn { to { fill: var(--color-text); } }
+
 .l1 { opacity: 0; animation: showL 0.12s ease forwards 4.1s; }
 .l2 { opacity: 0; animation: showL 0.12s ease forwards 4.28s; }
 .l3 { opacity: 0; animation: showL 0.12s ease forwards 4.46s; }
@@ -237,15 +244,16 @@ svg .logo-letters text { font-family: var(--font-mono); font-weight: 700; fill: 
 .l7 { opacity: 0; animation: showL 0.12s ease forwards 5.18s; }
 .l8 { opacity: 0; animation: showL 0.12s ease forwards 5.36s; }
 .l9 { opacity: 0; animation: showL 0.12s ease forwards 5.54s; }
-@keyframes drawS { from { stroke-dashoffset: 340; } to { stroke-dashoffset: 0; } }
-@keyframes showD { to { opacity: 1; } }
-@keyframes showL { to { opacity: 1; } }
-@keyframes fillIn { to { fill: var(--color-text); } }
+.l10 { opacity: 0; animation: showL 0.12s ease forwards 5.72s; }
+.l11 { opacity: 0; animation: showL 0.12s ease forwards 5.9s; }
+.l12 { opacity: 0; animation: showL 0.12s ease forwards 6.08s; }
+.l13 { opacity: 0; animation: showL 0.12s ease forwards 6.26s; }
+.l14 { opacity: 0; animation: showL 0.12s ease forwards 6.44s; }
 
 /* Mobile : pas d'animation, logo affiché complet directement (cf. règle reduced-motion ci-dessus, même logique) */
 @media (max-width: 899px) {
   .path-o, .path-b1, .path-b2, .path-b3, .dot-o, .dot-b,
-  .l1, .l2, .l3, .l4, .l5, .l6, .l7, .l8, .l9 {
+  .l1, .l2, .l3, .l4, .l5, .l6, .l7, .l8, .l9, .l10, .l11, .l12, .l13, .l14 {
     animation: none;
     stroke-dashoffset: 0;
     opacity: 1;
@@ -284,23 +292,20 @@ svg .logo-letters text { font-family: var(--font-mono); font-weight: 700; fill: 
     gap: 10px;
   }
   .hero-nav ul { flex-direction: column; gap: 10px; }
-  .hero-nav a { font-size: 10px; font-weight: 400; letter-spacing: 0.15em; color: var(--color-muted); gap: 6px; }
+  .hero-nav a { font-size: 0.625rem; font-weight: 400; letter-spacing: 0.15em; color: var(--color-muted); gap: 6px; }
   .hero-nav a:hover, .hero-nav a:focus-visible { color: var(--color-text); }
-  .nav-num { font-size: 10px; color: var(--color-muted-light); }
+  .nav-num { font-size: 0.625rem; color: var(--color-muted-light); }
 
   .hero-titre-heure {
+    display: block;
     position: absolute;
-    top: calc(var(--spacing-unit) * 4 + 22px);
+    top: calc(var(--spacing-unit) * 4 + 32px);
     right: calc(var(--spacing-unit) * 4);
     text-align: right;
     padding: 0;
   }
-  .hero-titre {
-    display: block; font-size: 9px; letter-spacing: 0.15em; color: var(--color-text); font-weight: 700;
-    margin-bottom: 2px;
-  }
-  .hero-heure { display: block; font-size: 13px; letter-spacing: 0.1em; margin-top: 6px; font-variant-numeric: tabular-nums; }
-  .hero-date { display: block; font-size: 10px; letter-spacing: 0.12em; color: var(--color-muted); margin-top: 2px; }
+  .hero-heure { display: block; font-size: 0.8125rem; letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
+  .hero-date { display: block; font-size: 0.625rem; letter-spacing: 0.12em; color: var(--color-muted); margin-top: 2px; }
 
   .hero-logo {
     position: absolute;
@@ -326,7 +331,7 @@ svg .logo-letters text { font-family: var(--font-mono); font-weight: 700; fill: 
     right: calc(var(--spacing-unit) * 4);
   }
   .hero-projets-nav ul { flex-direction: row; gap: calc(var(--spacing-unit) * 3); padding: 0; align-items: flex-end; }
-  .proj-num { font-size: 48px; }
+  .proj-num { font-size: 3rem; }
 
   .scroll-hint {
     position: absolute;
@@ -340,38 +345,116 @@ svg .logo-letters text { font-family: var(--font-mono); font-weight: 700; fill: 
 
 /* ===================== SECTIONS GÉNÉRALES ===================== */
 section { padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 3); max-width: 900px; margin: 0 auto; }
-section h2 { font-size: 22px; margin-bottom: calc(var(--spacing-unit) * 3); }
+section h2 { font-size: 1.375rem; margin-bottom: calc(var(--spacing-unit) * 3); }
+
+/* ===================== MOTS-CLÉS SURLIGNÉS (lecture en diagonale) ===================== */
+/* Test 20/06 : accent moutarde réutilisé en surlignage de texte (dérogation ponctuelle
+   à la règle "moutarde jamais en texte courant"). Couleur de texte fixée via
+   --color-on-accent (pas --color-text) pour garantir le contraste en mode sombre :
+   7,3:1 avec --color-on-accent contre 2,1:1 si on avait gardé --color-text. */
+#a-propos p { max-width: 68ch; }
+
+mark {
+  background: var(--color-mark-bg);
+  color: var(--color-on-accent);
+  font-weight: 700;
+  padding: 0.05em 0.3em;
+  border-radius: var(--border-radius);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Activé en JS uniquement si JS dispo et prefers-reduced-motion non actif (voir script.js).
+   Sans JS, mouvement réduit, OU mode sombre : le mark reste statique (règle de base ci-dessus,
+   surlignage permanent), jamais d'animation forcée. Mode sombre volontairement non concerné par
+   le test du 20/06 — décision du 20/06 : on n'y touche pas. */
+.has-mark-animation:not([data-theme="dark"]) #a-propos mark {
+  background: transparent;
+  color: var(--color-text);
+}
+.has-mark-animation:not([data-theme="dark"]) #a-propos mark.mark-pulse {
+  animation: markPulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: var(--pulse-delay, 0s);
+}
+@keyframes markPulse {
+  0%   { background-color: transparent;         color: var(--color-text); }
+  35%  { background-color: var(--color-mark-bg); color: var(--color-on-accent); }
+  60%  { background-color: var(--color-mark-bg); color: var(--color-on-accent); }
+  100% { background-color: transparent;          color: var(--color-text); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .has-mark-animation:not([data-theme="dark"]) #a-propos mark {
+    background: var(--color-mark-bg);
+    color: var(--color-on-accent);
+    animation: none !important;
+  }
+}
 #competences ul li { padding: calc(var(--spacing-unit) * 1.25) 0; border-bottom: 1px solid var(--color-line); }
 
 /* ===================== PROJETS (section détaillée) ===================== */
 #projets article { padding: calc(var(--spacing-unit) * 3) 0; border-bottom: 1px solid var(--color-line); position: relative; }
-.projet-numero { font-weight: 700; font-size: 13px; letter-spacing: 0.05em; margin: 0 0 calc(var(--spacing-unit) * 1.5); }
-#projets h3 { font-size: 32px; margin-bottom: calc(var(--spacing-unit) * 1.5); }
+.projet-numero { font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.05em; margin: 0 0 calc(var(--spacing-unit) * 1.5); }
+#projets h3 { font-size: 2rem; margin-bottom: calc(var(--spacing-unit) * 1.5); }
 #projets article p:not(.projet-numero) { max-width: 480px; margin: 0 0 calc(var(--spacing-unit) * 2); }
 .lien-projet {
-  display: inline-flex; align-items: center; font-weight: 700; font-size: 14px;
+  display: inline-flex; align-items: center; font-weight: 700; font-size: 0.875rem;
   border-bottom: 2px solid var(--color-accent); padding-bottom: 2px; transition: transform 0.15s ease;
 }
 #projets article:hover .lien-projet, #projets article:focus-within .lien-projet { transform: translateX(4px); }
 
 /* ===================== FORMULAIRE CONTACT ===================== */
 form div { margin-bottom: calc(var(--spacing-unit) * 2.5); }
-label { display: block; font-weight: 700; font-size: 14px; margin-bottom: calc(var(--spacing-unit) * 0.75); }
+label { display: block; font-weight: 700; font-size: 0.875rem; margin-bottom: calc(var(--spacing-unit) * 0.75); }
 input, textarea {
   width: 100%; padding: calc(var(--spacing-unit) * 1.25); border: 2px solid var(--color-text);
   border-radius: var(--border-radius); background: var(--color-bg); color: var(--color-text);
-  font-family: var(--font-mono); font-size: 14px;
+  font-family: var(--font-mono); font-size: 0.875rem;
 }
 textarea { min-height: 120px; resize: vertical; }
 input:focus-visible, textarea:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 button[type="submit"] {
   background: var(--color-accent); color: var(--color-on-accent); border: 2px solid var(--color-on-accent);
   border-radius: var(--border-radius); padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3);
-  font-weight: 700; font-size: 14px; cursor: pointer;
+  font-weight: 700; font-size: 0.875rem; cursor: pointer;
+}
+
+/* ===================== RETOUR EN HAUT DE PAGE ===================== */
+/* Trait fin façon logo (stroke, pas de fill), même logique visuelle que .theme-toggle :
+   discret par défaut, apparaît seulement une fois le hero quitté (voir script.js). */
+.back-to-top {
+  position: fixed;
+  right: calc(var(--spacing-unit) * 3);
+  bottom: calc(var(--spacing-unit) * 3);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  border: 1px solid var(--color-muted-light);
+  border-radius: var(--border-radius);
+  color: var(--color-muted);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease, color 0.2s ease, border-color 0.2s ease;
+  z-index: 40;
+}
+.back-to-top svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.back-to-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.back-to-top:hover, .back-to-top:focus-visible { color: var(--color-text); border-color: var(--color-text); }
+
+@media (min-width: 900px) {
+  .back-to-top { right: calc(var(--spacing-unit) * 4); bottom: calc(var(--spacing-unit) * 4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top { transition: opacity 0.01ms linear; transform: none; }
 }
 
 /* ===================== FOOTER ===================== */
-footer { padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 3); text-align: center; font-size: 13px; }
+footer { padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 3); text-align: center; font-size: 0.8125rem; }
 footer nav ul { display: flex; justify-content: center; gap: calc(var(--spacing-unit) * 3); margin-bottom: calc(var(--spacing-unit) * 2); }
 footer nav a { font-weight: 700; }
 footer nav a:hover, footer nav a:focus-visible { border-bottom: 2px solid var(--color-accent); }
