@@ -347,6 +347,16 @@ svg .logo-letters text {
   fill: none;
   stroke: var(--color-text);
 }
+/* certains navigateurs n'héritent pas stroke/fill du <text> vers chaque <tspan> */
+svg .logo-letters text tspan {
+  fill: none;
+  stroke: var(--color-text);
+}
+/* évite que des lettres soient rognées si elles dépassent légèrement le viewBox */
+.hero-logo,
+.hero-logo svg {
+  overflow: visible;
+}
 
 .path-o {
   stroke-width: 1.2;
