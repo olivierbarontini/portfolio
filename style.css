@@ -524,7 +524,9 @@ svg .logo-letters text tspan {
   .hero-top-bar {
     display: block;
     position: absolute;
-    top: calc(var(--spacing-unit) * 4);
+    /* 84px = hauteur de .hero-projets-nav (~68px) + un espace (16px) : le bouton doit
+       rester au-dessus de la nav projets, qui occupe déjà toute la colonne droite basse. */
+    bottom: calc(var(--spacing-unit) * 3 + 84px);
     right: calc(var(--spacing-unit) * 4);
     padding: 0;
     text-align: right;
@@ -572,7 +574,7 @@ svg .logo-letters text tspan {
   .hero-titre-heure {
     display: block;
     position: absolute;
-    top: calc(var(--spacing-unit) * 4 + 32px);
+    top: calc(var(--spacing-unit) * 4);
     right: calc(var(--spacing-unit) * 4);
     text-align: right;
     padding: 0;
