@@ -3,20 +3,20 @@
 // le choix de la personne dans localStorage pour ses visites suivantes.
 
 (function () {
-  const toggle = document.getElementById('theme-toggle');
+  const toggle = document.getElementById("theme-toggle");
   if (!toggle) return;
 
-  const STORAGE_KEY = 'theme';
+  const STORAGE_KEY = "theme";
 
   function applyTheme(theme) {
-    if (theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      toggle.setAttribute('aria-pressed', 'true');
-      toggle.textContent = 'mode clair';
+    if (theme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+      toggle.setAttribute("aria-pressed", "true");
+      toggle.textContent = "mode clair";
     } else {
-      document.documentElement.removeAttribute('data-theme');
-      toggle.setAttribute('aria-pressed', 'false');
-      toggle.textContent = 'mode sombre';
+      document.documentElement.removeAttribute("data-theme");
+      toggle.setAttribute("aria-pressed", "false");
+      toggle.textContent = "mode sombre";
     }
   }
 
@@ -27,12 +27,15 @@
     // localStorage indisponible (navigation privée stricte) : on ignore, pas de mémorisation
   }
 
-  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  applyTheme(saved || (systemPrefersDark ? 'dark' : 'light'));
+  const systemPrefersDark = window.matchMedia(
+    "(prefers-color-scheme: dark)",
+  ).matches;
+  applyTheme(saved || (systemPrefersDark ? "dark" : "light"));
 
-  toggle.addEventListener('click', function () {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    const next = isDark ? 'light' : 'dark';
+  toggle.addEventListener("click", function () {
+    const isDark =
+      document.documentElement.getAttribute("data-theme") === "dark";
+    const next = isDark ? "light" : "dark";
     applyTheme(next);
     try {
       localStorage.setItem(STORAGE_KEY, next);
@@ -42,33 +45,42 @@
   });
 })();
 
-
 // ===================== HORLOGE LIVE =====================
 // Format repris des fichiers sources du 18/06 : "HH'H'MM [France]" + date en toutes lettres.
 // Mise à jour chaque seconde. N'affecte que le desktop (masqué en CSS sur mobile).
 
 (function () {
-  const clockEl = document.getElementById('heure-locale');
-  const dateEl = document.getElementById('date-locale');
+  const clockEl = document.getElementById("heure-locale");
+  const dateEl = document.getElementById("date-locale");
   if (!clockEl || !dateEl) return;
 
   const mois = [
-    'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+    "janvier",
+    "février",
+    "mars",
+    "avril",
+    "mai",
+    "juin",
+    "juillet",
+    "août",
+    "septembre",
+    "octobre",
+    "novembre",
+    "décembre",
   ];
 
   function update() {
     const now = new Date();
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    clockEl.textContent = h + 'H' + m + ' [France]';
-    dateEl.textContent = now.getDate() + ' ' + mois[now.getMonth()] + ' ' + now.getFullYear();
+    const h = String(now.getHours()).padStart(2, "0");
+    const m = String(now.getMinutes()).padStart(2, "0");
+    clockEl.textContent = h + "H" + m + " [France]";
+    dateEl.textContent =
+      now.getDate() + " " + mois[now.getMonth()] + " " + now.getFullYear();
   }
 
   update();
   setInterval(update, 1000);
 })();
-
 
 // ===================== MENU BURGER + FOCUS TRAP =====================
 // Choix du 19/06/2026 : JS plutôt que CSS pur, pour permettre un piège à
@@ -77,13 +89,13 @@
 // Le logo, lui, est animé en CSS pur (aucune dépendance JS) : voir style.css.
 
 (function () {
-  const burgerBtn = document.getElementById('burger-btn');
-  const navOverlay = document.getElementById('nav-overlay');
-  const closeBtn = document.getElementById('nav-close-btn');
+  const burgerBtn = document.getElementById("burger-btn");
+  const navOverlay = document.getElementById("nav-overlay");
+  const closeBtn = document.getElementById("nav-close-btn");
 
   if (!burgerBtn || !navOverlay || !closeBtn) return;
 
-  const focusableSelector = 'a[href], button:not([disabled])';
+  const focusableSelector = "a[href], button:not([disabled])";
   let lastFocused = null;
 
   function getFocusable() {
@@ -92,18 +104,18 @@
 
   function openMenu() {
     lastFocused = document.activeElement;
-    navOverlay.classList.add('is-open');
-    burgerBtn.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
+    navOverlay.classList.add("is-open");
+    burgerBtn.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
     closeBtn.focus();
-    document.addEventListener('keydown', handleKeydown);
+    document.addEventListener("keydown", handleKeydown);
   }
 
   function closeMenu() {
-    navOverlay.classList.remove('is-open');
-    burgerBtn.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-    document.removeEventListener('keydown', handleKeydown);
+    navOverlay.classList.remove("is-open");
+    burgerBtn.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+    document.removeEventListener("keydown", handleKeydown);
     if (lastFocused) {
       lastFocused.focus();
     } else {
@@ -112,13 +124,13 @@
   }
 
   function handleKeydown(event) {
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       event.preventDefault();
       closeMenu();
       return;
     }
 
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       const focusable = getFocusable();
       if (focusable.length === 0) return;
 
@@ -135,15 +147,14 @@
     }
   }
 
-  burgerBtn.addEventListener('click', openMenu);
-  closeBtn.addEventListener('click', closeMenu);
+  burgerBtn.addEventListener("click", openMenu);
+  closeBtn.addEventListener("click", closeMenu);
 
   // Fermer le menu si on clique un lien (anchor de navigation)
-  navOverlay.querySelectorAll('a[href]').forEach(function (link) {
-    link.addEventListener('click', closeMenu);
+  navOverlay.querySelectorAll("a[href]").forEach(function (link) {
+    link.addEventListener("click", closeMenu);
   });
 })();
-
 
 // ===================== MOTS-CLÉS SURLIGNÉS — RÉVÉLATION AU SCROLL =====================
 // Idée du 20/06 : chaque <mark> du bloc À propos reste transparent par défaut, puis se
@@ -153,17 +164,19 @@
 // en permanence (style statique défini dans style.css), jamais d'animation forcée.
 
 (function () {
-  var section = document.getElementById('a-propos');
-  var marks = section ? section.querySelectorAll('mark') : [];
+  var section = document.getElementById("a-propos");
+  var marks = section ? section.querySelectorAll("mark") : [];
   if (!section || !marks.length) return;
 
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
   if (reduceMotion) return; // on garde le surlignage statique, pas d'animation
 
-  document.documentElement.classList.add('has-mark-animation');
+  document.documentElement.classList.add("has-mark-animation");
 
-  if (!('IntersectionObserver' in window)) {
-    document.documentElement.classList.remove('has-mark-animation');
+  if (!("IntersectionObserver" in window)) {
+    document.documentElement.classList.remove("has-mark-animation");
     return;
   }
 
@@ -172,21 +185,71 @@
   // On observe la section entière (pas chaque mark séparément) : sur un grand écran où
   // tous les mots sont déjà visibles en même temps, ça évite qu'ils se déclenchent tous
   // ensemble — le décalage (--pulse-delay) recrée l'effet "un mot après l'autre".
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        marks.forEach(function (mark, index) {
-          mark.style.setProperty('--pulse-delay', (index * STAGGER_SECONDS) + 's');
-          mark.classList.add('mark-pulse');
-        });
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.3 });
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          marks.forEach(function (mark, index) {
+            mark.style.setProperty(
+              "--pulse-delay",
+              index * STAGGER_SECONDS + "s",
+            );
+            mark.classList.add("mark-pulse");
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 },
+  );
 
   observer.observe(section);
 })();
 
+// ===================== FORMULAIRE DE CONTACT (Web3Forms) =====================
+// Le formulaire fonctionne déjà sans JS (POST natif vers Web3Forms, voir index.html).
+// Ici on intercepte l'envoi pour rester sur la page et afficher le retour dans
+// #form-status (role="status" : annoncé par les lecteurs d'écran sans déplacer le focus).
+
+(function () {
+  var form = document.getElementById("contact-form");
+  var status = document.getElementById("form-status");
+  if (!form || !status) return;
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    var submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+    status.textContent = "Envoi en cours…";
+
+    fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { Accept: "application/json" },
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        if (data.success) {
+          status.textContent =
+            "Message envoyé, merci ! Je vous répondrai rapidement.";
+          form.reset();
+        } else {
+          status.textContent =
+            "Une erreur est survenue. Vous pouvez réessayer ou m'écrire directement par email.";
+        }
+      })
+      .catch(function () {
+        status.textContent =
+          "Une erreur est survenue. Vous pouvez réessayer ou m'écrire directement par email.";
+      })
+      .finally(function () {
+        if (submitBtn) submitBtn.disabled = false;
+      });
+  });
+})();
 
 // ===================== RETOUR EN HAUT DE PAGE =====================
 // Le bouton apparaît une fois le hero entièrement quitté (pas avant, pour éviter la
@@ -195,26 +258,27 @@
 // pas besoin de dupliquer cette logique ici.
 
 (function () {
-  var btn = document.getElementById('back-to-top');
-  var hero = document.getElementById('accueil');
+  var btn = document.getElementById("back-to-top");
+  var hero = document.getElementById("accueil");
   if (!btn || !hero) return;
 
-  btn.addEventListener('click', function () {
-    hero.scrollIntoView({ block: 'start' });
+  btn.addEventListener("click", function () {
+    hero.scrollIntoView({ block: "start" });
   });
 
-  if ('IntersectionObserver' in window) {
-    var heroObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        btn.classList.toggle('is-visible', !entry.isIntersecting);
-      });
-    }, { threshold: 0 });
+  if ("IntersectionObserver" in window) {
+    var heroObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          btn.classList.toggle("is-visible", !entry.isIntersecting);
+        });
+      },
+      { threshold: 0 },
+    );
     heroObserver.observe(hero);
   } else {
     // Pas d'IntersectionObserver disponible : on affiche le bouton en permanence
     // plutôt que de le priver de cette fonctionnalité.
-    btn.classList.add('is-visible');
+    btn.classList.add("is-visible");
   }
 })();
-
-
