@@ -524,10 +524,11 @@ svg .logo-letters text tspan {
   .hero-top-bar {
     display: block;
     position: absolute;
-    /* 84px = hauteur de .hero-projets-nav (~68px) + un espace (16px) : le bouton doit
-       rester au-dessus de la nav projets, qui occupe déjà toute la colonne droite basse. */
-    bottom: calc(var(--spacing-unit) * 3 + 84px);
-    right: calc(var(--spacing-unit) * 4);
+    /* .hero-logo est centré (top/left 50%, translate -50%) et large de 340px : 170px
+       cale le bord droit du bouton sur le bord droit du logo. 107px place le bouton
+       juste sous le texte "développeur web" du logo (mesuré : ~91px sous le centre). */
+    top: calc(50% + 107px);
+    right: calc(50% - 170px);
     padding: 0;
     text-align: right;
   }
