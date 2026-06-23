@@ -716,6 +716,9 @@ mark {
   padding: calc(var(--spacing-unit) * 3) 0;
   border-bottom: 1px solid var(--color-line);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 2);
 }
 .projet-numero {
   font-weight: 700;
@@ -730,6 +733,9 @@ mark {
 #projets article p:not(.projet-numero) {
   max-width: 480px;
   margin: 0 0 calc(var(--spacing-unit) * 2);
+}
+.projet-content {
+  flex: 1;
 }
 .lien-projet {
   display: inline-flex;
@@ -751,8 +757,23 @@ mark {
   object-position: top;
   border-radius: 4px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  margin-bottom: 1rem;
   display: block;
+  flex-shrink: 0;
+}
+@media (min-width: 600px) {
+  #projets article {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: calc(var(--spacing-unit) * 3);
+  }
+  .projet-screenshot {
+    width: 240px;
+    height: 160px;
+    order: 2;
+  }
+  .projet-content {
+    order: 1;
+  }
 }
 /* ===================== FORMULAIRE CONTACT ===================== */
 form div {
