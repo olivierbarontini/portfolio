@@ -15,7 +15,7 @@ HTML / CSS / JS vanilla — déployé sur GitHub Pages
 | Nina Carducci | Audit SEO & accessibilité | [Voir](https://olivierbarontini.github.io/nina-carducci) |
 | Kasa | React, Vite, SCSS | [Voir](https://olivierbarontini.github.io/kasa) |
 | Mon Vieux Grimoire | Node, Express, MongoDB, JWT | [Voir](https://mon-vieux-grimoire.onrender.com) |
-| Menu Maker by Qwenta | Gestion de projet Agile | [Voir](https://olivierbarontini.github.io/menu-maker) |
+| Menu Maker by Qwenta | Gestion de projet Agile | [Voir](https://olivierbarontini.github.io/portfolio/presentation.pdf) |
 
 ## Lancement local
 
