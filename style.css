@@ -746,7 +746,9 @@ mark {
 }
 .projet-screenshot {
   width: 100%;
-  height: auto;
+  height: 180px;
+  object-fit: cover;
+  object-position: top;
   border-radius: 4px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   margin-bottom: 1rem;
