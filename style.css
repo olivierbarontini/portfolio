@@ -744,7 +744,14 @@ mark {
 #projets article:focus-within .lien-projet {
   transform: translateX(4px);
 }
-
+.projet-screenshot {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1rem;
+  display: block;
+}
 /* ===================== FORMULAIRE CONTACT ===================== */
 form div {
   margin-bottom: calc(var(--spacing-unit) * 2.5);
