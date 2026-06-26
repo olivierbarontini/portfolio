@@ -48,7 +48,7 @@ body {
   font-family: var(--font-mono);
   font-weight: 400;
   line-height: 1.7;
-  font-size: 0.9375rem;
+  font-size: 1rem;
 }
 
 h1,
@@ -121,20 +121,8 @@ button {
   .path-b3,
   .dot-o,
   .dot-b,
-  .l1,
-  .l2,
-  .l3,
-  .l4,
-  .l5,
-  .l6,
-  .l7,
-  .l8,
-  .l9,
-  .l10,
-  .l11,
-  .l12,
-  .l13,
-  .l14 {
+  .l-dev,
+  .l-web {
     animation: none !important;
     stroke-dashoffset: 0 !important;
     opacity: 1 !important;
@@ -155,19 +143,54 @@ button {
 
 .theme-toggle {
   background: transparent;
-  border: 1px solid var(--color-muted-light);
-  border-radius: var(--border-radius);
-  color: var(--color-muted);
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.1em;
-  padding: 6px 10px;
+  border: none;
+  padding: 0;
   cursor: pointer;
+  display: none;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: -4px; /* léger décalage pour centrer sous la date */
+  color: var(--color-muted);
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 .theme-toggle:hover,
 .theme-toggle:focus-visible {
   color: var(--color-text);
-  border-color: var(--color-text);
+  transform: scale(1.12);
+}
+.theme-toggle:hover .bulb-halo,
+.theme-toggle:focus-visible .bulb-halo {
+  opacity: 0.12 !important;
+}
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.bulb-svg {
+  display: block;
+  overflow: visible;
+}
+.bulb-halo {
+  transition: opacity 0.35s ease;
+}
+.bulb-filament {
+  transition: opacity 0.35s ease;
+}
+.bulb-rays {
+  transition: opacity 0.3s ease;
+}
+/* État mode sombre — activé via JS sur l'attribut data-theme */
+[data-theme="dark"] .bulb-halo {
+  opacity: 0.18 !important;
+}
+[data-theme="dark"] .bulb-filament {
+  opacity: 1 !important;
+}
+[data-theme="dark"] .bulb-rays {
+  opacity: 1 !important;
 }
 
 /* ===================== HERO — MOBILE (PAR DÉFAUT) ===================== */
@@ -251,10 +274,11 @@ button {
   align-items: baseline;
   gap: calc(var(--spacing-unit) * 1.5);
 }
-.nav-num {
-  font-size: 0.6875rem;
-  font-weight: 400;
+.nav-dash {
+  font-size: 0.5rem;
   color: var(--color-muted-light);
+  opacity: 0.6;
+  margin-right: 4px;
 }
 
 .hero-nav a:hover,
@@ -282,11 +306,11 @@ button {
 
 .hero-tagline {
   text-align: center;
-  font-size: 0.625rem;
-  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
   color: var(--color-muted);
-  font-style: italic;
-  line-height: 1.9;
+  font-style: normal;
+  line-height: 1.8;
   padding: 0 calc(var(--spacing-unit) * 4);
 }
 
@@ -315,10 +339,12 @@ button {
   background: var(--color-line);
 }
 .proj-lbl {
-  font-size: 0.4375rem;
+  font-size: 0.5625rem;
   letter-spacing: 0.1em;
   color: var(--color-muted-light);
   text-align: center;
+  min-height: 1.6em;
+  display: block;
 }
 .hero-projets-nav a:hover .proj-num,
 .hero-projets-nav a:focus-visible .proj-num {
@@ -327,7 +353,7 @@ button {
 
 .scroll-hint {
   text-align: center;
-  font-size: 0.5rem;
+  font-size: 0.5625rem;
   letter-spacing: 0.2em;
   color: var(--color-muted-light);
   padding: calc(var(--spacing-unit)) 0 calc(var(--spacing-unit) * 3);
@@ -343,14 +369,54 @@ svg .logo-path {
 }
 svg .logo-letters text {
   font-family: var(--font-mono);
-  font-weight: 700;
+}
+svg .l-dev {
   fill: none;
   stroke: var(--color-text);
 }
-/* certains navigateurs n'héritent pas stroke/fill du <text> vers chaque <tspan> */
-svg .logo-letters text tspan {
-  fill: none;
-  stroke: var(--color-text);
+svg .l-web {
+  fill: #d4a017;
+  stroke: none;
+}
+.logo-sep {
+  stroke: var(--color-line);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.logo-scroll-hint {
+  font-family: var(--font-mono);
+  fill: var(--color-muted-light);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Apparition après animation (délai après la dernière lettre ~6.5s) */
+.logo-sep-visible .logo-sep,
+.logo-sep-visible .logo-scroll-hint {
+  opacity: 1;
+}
+
+/* Mobile : tout visible directement */
+@media (max-width: 899px) {
+  .logo-sep,
+  .logo-scroll-hint {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-sep,
+  .logo-scroll-hint {
+    opacity: 1 !important;
+  }
+}
+
+.l-dev {
+  opacity: 0;
+  animation: showL 0.4s ease forwards 4.1s;
+}
+.l-web {
+  opacity: 0;
+  animation: showL 0.3s ease forwards 4.6s;
 }
 /* évite que des lettres soient rognées si elles dépassent légèrement le viewBox */
 .hero-logo,
@@ -374,24 +440,24 @@ svg .logo-letters text tspan {
 }
 .path-b1 {
   stroke-width: 1.2;
-  stroke-dasharray: 80;
-  stroke-dashoffset: 80;
-  animation: drawS 0.5s ease forwards 2s;
+  stroke-dasharray: 104 106;
+  stroke-dashoffset: 104;
+  animation: drawB1 0.5s ease forwards 2s;
 }
 .path-b2 {
   stroke-width: 1.2;
-  stroke-dasharray: 120;
-  stroke-dashoffset: 120;
+  stroke-dasharray: 110 112;
+  stroke-dashoffset: 110;
   animation:
-    drawS 0.6s ease forwards 2.5s,
+    drawB2 0.6s ease forwards 2.5s,
     fillIn 0.4s ease forwards 3.1s;
 }
 .path-b3 {
   stroke-width: 1.2;
-  stroke-dasharray: 120;
-  stroke-dashoffset: 120;
+  stroke-dasharray: 118 120;
+  stroke-dashoffset: 118;
   animation:
-    drawS 0.6s ease forwards 3.1s,
+    drawB3 0.6s ease forwards 3.1s,
     fillIn 0.4s ease forwards 3.7s;
 }
 .dot-b {
@@ -403,6 +469,30 @@ svg .logo-letters text tspan {
 @keyframes drawS {
   from {
     stroke-dashoffset: 340;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes drawB1 {
+  from {
+    stroke-dashoffset: 104;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes drawB2 {
+  from {
+    stroke-dashoffset: 110;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes drawB3 {
+  from {
+    stroke-dashoffset: 118;
   }
   to {
     stroke-dashoffset: 0;
@@ -424,64 +514,7 @@ svg .logo-letters text tspan {
   }
 }
 
-.l1 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 4.1s;
-}
-.l2 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 4.28s;
-}
-.l3 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 4.46s;
-}
-.l4 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 4.64s;
-}
-.l5 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 4.82s;
-}
-.l6 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 5s;
-}
-.l7 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 5.18s;
-}
-.l8 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 5.36s;
-}
-.l9 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 5.54s;
-}
-.l10 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 5.72s;
-}
-.l11 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 5.9s;
-}
-.l12 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 6.08s;
-}
-.l13 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 6.26s;
-}
-.l14 {
-  opacity: 0;
-  animation: showL 0.12s ease forwards 6.44s;
-}
-
-/* Mobile : pas d'animation, logo affiché complet directement (cf. règle reduced-motion ci-dessus, même logique) */
+/* Mobile : pas d'animation, logo affiché complet directement */
 @media (max-width: 899px) {
   .path-o,
   .path-b1,
@@ -489,23 +522,16 @@ svg .logo-letters text tspan {
   .path-b3,
   .dot-o,
   .dot-b,
-  .l1,
-  .l2,
-  .l3,
-  .l4,
-  .l5,
-  .l6,
-  .l7,
-  .l8,
-  .l9,
-  .l10,
-  .l11,
-  .l12,
-  .l13,
-  .l14 {
+  .l-dev,
+  .l-web {
     animation: none;
     stroke-dashoffset: 0;
     opacity: 1;
+  }
+  .path-b1,
+  .path-b2,
+  .path-b3 {
+    stroke-dashoffset: 0 !important;
   }
   .path-o,
   .path-b1,
@@ -521,18 +547,6 @@ svg .logo-letters text tspan {
     padding: calc(var(--spacing-unit) * 4);
   }
 
-  .hero-top-bar {
-    display: block;
-    position: absolute;
-    /* .hero-logo est centré (top/left 50%, translate -50%) et large de 340px : 170px
-       cale le bord droit du bouton sur le bord droit du logo. 107px place le bouton
-       juste sous le texte "développeur web" du logo (mesuré : ~91px sous le centre). */
-    top: calc(50% + 107px);
-    right: calc(50% - 170px);
-    padding: 0;
-    text-align: right;
-  }
-
   .hero-nav-zone {
     display: none;
   } /* le burger ne sert qu'au mobile */
@@ -546,30 +560,55 @@ svg .logo-letters text tspan {
     top: calc(var(--spacing-unit) * 4);
     left: calc(var(--spacing-unit) * 4);
     inset: auto;
-    background: transparent;
+    background: rgba(210, 207, 199, 0.65);
+    backdrop-filter: none;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0;
+    padding: 14px 18px;
+    border-radius: 6px;
     gap: 10px;
+    transform-origin: top left;
+    transition:
+      transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      background 0.3s ease;
+  }
+  [data-theme="dark"] .hero-nav {
+    background: rgba(58, 57, 54, 0.65);
+  }
+  .hero-nav:hover {
+    transform: scale(1.03);
+    background: rgba(200, 197, 188, 0.8);
+  }
+  [data-theme="dark"] .hero-nav:hover {
+    background: rgba(65, 64, 60, 0.75);
   }
   .hero-nav ul {
     flex-direction: column;
     gap: 10px;
   }
   .hero-nav a {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     font-weight: 400;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.1em;
     color: var(--color-muted);
-    gap: 6px;
+    gap: 8px;
+    transition: color 0.2s ease;
   }
   .hero-nav a:hover,
   .hero-nav a:focus-visible {
     color: var(--color-text);
   }
-  .nav-num {
-    font-size: 0.625rem;
-    color: var(--color-muted-light);
+  .hero-nav a:hover .nav-dash,
+  .hero-nav a:focus-visible .nav-dash {
+    color: var(--color-accent);
+    opacity: 1;
+  }
+  .nav-dash {
+    font-size: 1rem;
+    color: var(--color-accent);
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+    line-height: 1;
   }
 
   .hero-titre-heure {
@@ -579,6 +618,9 @@ svg .logo-letters text tspan {
     right: calc(var(--spacing-unit) * 4);
     text-align: right;
     padding: 0;
+  }
+  .theme-toggle {
+    display: block;
   }
   .hero-heure {
     display: block;
@@ -602,7 +644,7 @@ svg .logo-letters text tspan {
     padding: 0;
   }
   .hero-logo svg {
-    width: 340px;
+    width: 400px;
   }
 
   .hero-tagline {
@@ -625,8 +667,20 @@ svg .logo-letters text tspan {
     padding: 0;
     align-items: flex-end;
   }
+  .hero-projets-nav a {
+    align-items: center;
+    justify-content: flex-end;
+  }
   .proj-num {
     font-size: 3rem;
+    order: 1;
+  }
+  .proj-line {
+    order: 2;
+  }
+  .proj-lbl {
+    order: 3;
+    min-height: auto;
   }
 
   .scroll-hint {
@@ -808,6 +862,100 @@ mark {
     order: 2;
   }
 }
+/* Effet correspondance nav projets ↔ proj-num — doux, réciproque */
+.hero-projets-nav a .proj-num,
+.hero-projets-nav a .proj-line {
+  transition:
+    color 0.25s ease,
+    background 0.25s ease;
+}
+.hero.projets-active .proj-num,
+#nav-projets-nums a:hover .proj-num,
+#nav-projets-nums a:focus-visible .proj-num {
+  color: var(--color-accent);
+}
+.hero.projets-active .proj-line,
+#nav-projets-nums a:hover .proj-line,
+#nav-projets-nums a:focus-visible .proj-line {
+  background: var(--color-accent);
+}
+/* Réciproque : hover sur proj-num active le lien projets de la nav */
+.hero.nums-active #nav-projets {
+  color: var(--color-accent);
+}
+.hero.nums-active #nav-projets .nav-dash {
+  color: var(--color-accent);
+  opacity: 1;
+  font-size: 0.75rem;
+}
+.lien-badge {
+  display: inline-block;
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  border: 1px solid var(--color-muted);
+  border-radius: 2px;
+  padding: 1px 4px;
+  margin-left: 6px;
+  color: var(--color-muted);
+  vertical-align: middle;
+  line-height: 1.4;
+}
+
+/* Effet correspondance hover : nav "projets" ↔ proj-num */
+/* Activé via JS (classe .projets-active sur le hero) */
+.hero.projets-active .proj-num,
+#nav-projets-nums a:hover .proj-num,
+#nav-projets-nums a:focus-visible .proj-num {
+  color: var(--color-accent);
+}
+.hero.projets-active .proj-line {
+  background: var(--color-accent);
+}
+
+/* ===================== CHEVRONS INTER-SECTIONS ===================== */
+.scroll-chevron {
+  display: flex;
+  justify-content: center;
+  padding: calc(var(--spacing-unit) * 2) 0;
+  color: var(--color-muted-light);
+}
+.scroll-chevron .chev-1 {
+  animation: chevPulse 1.6s ease-in-out infinite;
+}
+.scroll-chevron .chev-2 {
+  animation: chevPulse 1.6s ease-in-out infinite 0.35s;
+}
+@keyframes chevPulse {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-chevron .chev-1,
+  .scroll-chevron .chev-2 {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
+/* ===================== COMPÉTENCES — ANIMATION ENTRÉE ===================== */
+.comp-item {
+  opacity: 0;
+  transform: translateX(-12px);
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease;
+}
+.comp-item.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 /* ===================== FORMULAIRE CONTACT ===================== */
 form div {
   margin-bottom: calc(var(--spacing-unit) * 2.5);
@@ -822,7 +970,7 @@ input,
 textarea {
   width: 100%;
   padding: calc(var(--spacing-unit) * 1.25);
-  border: 2px solid var(--color-text);
+  border: 1px solid var(--color-muted);
   border-radius: var(--border-radius);
   background: var(--color-bg);
   color: var(--color-text);
@@ -841,7 +989,7 @@ textarea:focus-visible {
 button[type="submit"] {
   background: var(--color-accent);
   color: var(--color-on-accent);
-  border: 2px solid var(--color-on-accent);
+  border: 1px solid var(--color-on-accent);
   border-radius: var(--border-radius);
   padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3);
   font-weight: 700;

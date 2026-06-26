@@ -37,14 +37,6 @@
       <h1 class="sr-only">Olivier Barontini — développeur web</h1>
 
       <div class="hero-top-bar">
-        <button
-          type="button"
-          class="theme-toggle"
-          id="theme-toggle"
-          aria-pressed="false"
-        >
-          mode sombre
-        </button>
         <header class="hero-nav-zone">
           <button
             type="button"
@@ -71,18 +63,18 @@
         </button>
         <ul>
           <li>
-            <a href="#a-propos"><span class="nav-num">01</span>à propos</a>
+            <a href="#a-propos"><span class="nav-dash">—</span>à propos</a>
           </li>
           <li>
-            <a href="#projets"><span class="nav-num">02</span>projets</a>
+            <a href="#projets" id="nav-projets" class="nav-link-projets"><span class="nav-dash">—</span>projets</a>
           </li>
           <li>
             <a href="#competences"
-              ><span class="nav-num">03</span>compétences</a
+              ><span class="nav-dash">—</span>compétences</a
             >
           </li>
           <li>
-            <a href="#contact"><span class="nav-num">04</span>contact</a>
+            <a href="#contact"><span class="nav-dash">—</span>contact</a>
           </li>
         </ul>
       </nav>
@@ -95,12 +87,45 @@
         <p class="hero-date" id="date-locale" aria-hidden="true">
           -- ------ ----
         </p>
+        <button
+          type="button"
+          class="theme-toggle"
+          id="theme-toggle"
+          aria-pressed="false"
+          aria-label="Activer le mode sombre"
+        >
+          <svg class="bulb-svg" width="40" height="56" viewBox="0 0 72 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <!-- corps ampoule -->
+            <path d="M36,5 C20,5 10,16 10,30 C10,42 17,50 24,57 L24,70 L48,70 L48,57 C55,50 62,42 62,30 C62,16 52,5 36,5 Z"
+              fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+            <!-- culot -->
+            <line x1="24" y1="70" x2="48" y2="70" stroke="currentColor" stroke-width="1.3"/>
+            <line x1="25" y1="77" x2="47" y2="77" stroke="currentColor" stroke-width="1.3"/>
+            <line x1="27" y1="84" x2="45" y2="84" stroke="currentColor" stroke-width="1.3"/>
+            <!-- halo (mode sombre) -->
+            <circle class="bulb-halo" cx="36" cy="30" r="18" fill="#d4a017" opacity="0"/>
+            <!-- filament -->
+            <path class="bulb-filament"
+              d="M28,58 L28,48 C28,48 30,44 33,44 C36,44 36,48 36,48 C36,48 36,44 39,44 C42,44 44,48 44,48 L44,58"
+              fill="none" stroke="#d4a017" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.2"/>
+            <!-- rayons (mode sombre) -->
+            <g class="bulb-rays" opacity="0">
+              <line x1="36" y1="1"  x2="36" y2="6"  stroke="#d4a017" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="64" y1="10" x2="60" y2="14" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="8"  y1="10" x2="12" y2="14" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="68" y1="30" x2="63" y2="30" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="4"  y1="30" x2="9"  y2="30" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="62" y1="52" x2="58" y2="48" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="10" y1="52" x2="14" y2="48" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </button>
       </div>
 
       <!-- Logo "O.B." — tracés et timing exacts retrouvés dans les fichiers sources du 18/06. Animation 100% CSS. -->
       <div class="hero-logo">
         <svg
-          viewBox="0 0 280 180"
+          viewBox="0 0 280 215"
           xmlns="http://www.w3.org/2000/svg"
           focusable="false"
           role="img"
@@ -123,27 +148,17 @@
           <circle class="dot-b" cx="226" cy="118" r="3.5" />
           <g class="logo-letters">
             <text
-              font-size="18"
-              stroke-width="0.7"
-              letter-spacing="0"
+              font-size="16"
               text-anchor="middle"
+              x="134"
+              y="150"
+              letter-spacing="8"
             >
-              <tspan class="l1" x="135" y="158">d</tspan>
-              <tspan class="l2">é</tspan>
-              <tspan class="l3">v</tspan>
-              <tspan class="l4">e</tspan>
-              <tspan class="l5">l</tspan>
-              <tspan class="l6">o</tspan>
-              <tspan class="l7">p</tspan>
-              <tspan class="l8">p</tspan>
-              <tspan class="l9">e</tspan>
-              <tspan class="l10">u</tspan>
-              <tspan class="l11">r</tspan>
-              <tspan class="l12" dx="8">w</tspan>
-              <tspan class="l13">e</tspan>
-              <tspan class="l14">b</tspan>
+              <tspan class="l-dev" fill="none" stroke-width="0.5">développeur </tspan><tspan class="l-web" fill="#d4a017" stroke="none" font-weight="700" letter-spacing="4">web</tspan>
             </text>
           </g>
+          <!-- scroll hint intégré — sans ligne de séparation -->
+          <text class="logo-scroll-hint" x="134" y="188" text-anchor="middle" font-size="7" letter-spacing="2.5" aria-hidden="true">[ scroll to explore ]</text>
         </svg>
       </div>
 
@@ -151,31 +166,31 @@
         je code depuis peu.<br />j'écoute depuis longtemps.
       </p>
 
-      <nav class="hero-projets-nav" aria-label="Accès rapide aux projets">
+      <nav class="hero-projets-nav" id="nav-projets-nums" aria-label="Accès rapide aux projets">
         <ul>
           <li>
-            <a href="#projet-menu-maker"
+            <a href="#projet-menu-maker" class="proj-link"
               ><span class="proj-num">1</span
               ><span class="proj-line" aria-hidden="true"></span
               ><span class="proj-lbl">menu maker</span></a
             >
           </li>
           <li>
-            <a href="#projet-mon-vieux-grimoire"
+            <a href="#projet-mon-vieux-grimoire" class="proj-link"
               ><span class="proj-num">2</span
               ><span class="proj-line" aria-hidden="true"></span
               ><span class="proj-lbl">grimoire</span></a
             >
           </li>
           <li>
-            <a href="#projet-kasa"
+            <a href="#projet-kasa" class="proj-link"
               ><span class="proj-num">3</span
               ><span class="proj-line" aria-hidden="true"></span
               ><span class="proj-lbl">kasa</span></a
             >
           </li>
           <li>
-            <a href="#projet-nina-carducci"
+            <a href="#projet-nina-carducci" class="proj-link"
               ><span class="proj-num">4</span
               ><span class="proj-line" aria-hidden="true"></span
               ><span class="proj-lbl">nina carducci</span></a
@@ -183,8 +198,6 @@
           </li>
         </ul>
       </nav>
-
-      <p class="scroll-hint" aria-hidden="true">[ scroll to explore ]</p>
     </section>
 
     <main id="contenu-principal">
@@ -232,18 +245,33 @@
         </p>
       </section>
 
+      <div class="scroll-chevron" aria-hidden="true">
+        <svg width="24" height="28" viewBox="0 0 24 28">
+          <polyline points="4,2 12,11 20,2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="chev-1"/>
+          <polyline points="4,14 12,23 20,14" fill="none" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="chev-2"/>
+        </svg>
+      </div>
+
       <!-- ===================== COMPÉTENCES ===================== -->
       <section id="competences" aria-labelledby="titre-competences">
         <h2 id="titre-competences">Compétences</h2>
         <ul>
-          <li>HTML5 / CSS3 — intégration responsive</li>
-          <li>JavaScript — interactions et logique applicative</li>
-          <li>React / React Router — composants et navigation</li>
-          <li>Node.js / Express / MongoDB — back-end et API</li>
-          <li>Accessibilité numérique et optimisation des performances</li>
-          <li>Gestion de projet — cadrage, spécifications, Kanban</li>
+          <li class="comp-item">HTML5 / CSS3 — intégration responsive</li>
+          <li class="comp-item">JavaScript — interactions et logique applicative</li>
+          <li class="comp-item">React / React Router — composants et navigation</li>
+          <li class="comp-item">Node.js / Express / MongoDB — back-end et API</li>
+          <li class="comp-item">Accessibilité numérique et optimisation des performances</li>
+          <li class="comp-item">Gestion de projet — cadrage, spécifications, Kanban</li>
         </ul>
       </section>
+
+      <div class="scroll-chevron" aria-hidden="true">
+        <svg width="24" height="28" viewBox="0 0 24 28">
+          <polyline points="4,2 12,11 20,2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="chev-1"/>
+          <polyline points="4,14 12,23 20,14" fill="none" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="chev-2"/>
+        </svg>
+      </div>
+
       <!-- ===================== PROJETS ===================== -->
       <section id="projets" aria-labelledby="titre-projets">
         <h2 id="titre-projets">Projets</h2>
@@ -256,16 +284,16 @@
             class="projet-card"
           >
             <div class="projet-info">
-              <p class="projet-numero">01 — P7</p>
+              <p class="projet-numero">1 — P7</p>
               <h3 id="projet-menu-maker">Menu Maker</h3>
               <p class="projet-desc">
                 Spécifications techniques et planification d'un projet client,
                 de A à Z.
               </p>
-              <span class="lien-projet"
-                >voir le projet<span class="sr-only">
+              <span class="lien-projet lien-pdf"
+                >voir la présentation<span class="sr-only">
                   (PDF, nouvel onglet)</span
-                ></span
+                ><span class="lien-badge" aria-hidden="true">PDF</span></span
               >
             </div>
             <div class="projet-visuel">
@@ -286,14 +314,14 @@
             class="projet-card"
           >
             <div class="projet-info">
-              <p class="projet-numero">02 — P6</p>
+              <p class="projet-numero">2 — P6</p>
               <h3 id="projet-mon-vieux-grimoire">Mon Vieux Grimoire</h3>
               <p class="projet-desc">
                 Back-end d'un site de notation de livres — Node.js, Express,
                 MongoDB, JWT.
               </p>
               <span class="lien-projet"
-                >voir le projet<span class="sr-only">
+                >voir le site déployé<span class="sr-only">
                   (nouvel onglet)</span
                 ></span
               >
@@ -316,14 +344,14 @@
             class="projet-card"
           >
             <div class="projet-info">
-              <p class="projet-numero">03 — P5</p>
+              <p class="projet-numero">3 — P5</p>
               <h3 id="projet-kasa">Kasa</h3>
               <p class="projet-desc">
                 Application de location d'appartements intégrée à partir de
                 maquettes Figma — React, React Router, Sass.
               </p>
               <span class="lien-projet"
-                >voir le projet<span class="sr-only">
+                >voir le site déployé<span class="sr-only">
                   (nouvel onglet)</span
                 ></span
               >
@@ -346,14 +374,14 @@
             class="projet-card"
           >
             <div class="projet-info">
-              <p class="projet-numero">04 — P4</p>
+              <p class="projet-numero">4 — P4</p>
               <h3 id="projet-nina-carducci">Nina Carducci</h3>
               <p class="projet-desc">
                 Débogage et optimisation d'un site de photographe — performance,
                 accessibilité, audit SEO.
               </p>
               <span class="lien-projet"
-                >voir le projet<span class="sr-only">
+                >voir le site déployé<span class="sr-only">
                   (nouvel onglet)</span
                 ></span
               >

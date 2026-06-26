@@ -12,11 +12,11 @@
     if (theme === "dark") {
       document.documentElement.setAttribute("data-theme", "dark");
       toggle.setAttribute("aria-pressed", "true");
-      toggle.textContent = "mode clair";
+      toggle.setAttribute("aria-label", "Activer le mode clair");
     } else {
       document.documentElement.removeAttribute("data-theme");
       toggle.setAttribute("aria-pressed", "false");
-      toggle.textContent = "mode sombre";
+      toggle.setAttribute("aria-label", "Activer le mode sombre");
     }
   }
 
@@ -156,6 +156,56 @@
   });
 })();
 
+// ===================== LOGO — RÉVÉLATION SEP + SCROLL HINT =====================
+(function () {
+  var svg = document.querySelector(".hero-logo svg");
+  if (!svg) return;
+  if (window.matchMedia("(max-width: 899px)").matches) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  setTimeout(function () {
+    svg.classList.add("logo-sep-visible");
+  }, 5000);
+})();
+
+// ===================== EFFET CORRESPONDANCE NAV PROJETS ↔ PROJ-NUM =====================
+// Au hover sur "projets" dans la nav, les numéros de projets s'illuminent en accent.
+// Réciproque : au hover sur un proj-num, le lien "projets" s'illumine aussi.
+
+(function () {
+  var navProjets = document.getElementById("nav-projets");
+  var projNums = document.getElementById("nav-projets-nums");
+  var hero = document.querySelector(".hero");
+  if (!navProjets || !projNums || !hero) return;
+
+  // Nav → proj-num
+  navProjets.addEventListener("mouseenter", function () {
+    hero.classList.add("projets-active");
+  });
+  navProjets.addEventListener("mouseleave", function () {
+    hero.classList.remove("projets-active");
+  });
+  navProjets.addEventListener("focusin", function () {
+    hero.classList.add("projets-active");
+  });
+  navProjets.addEventListener("focusout", function () {
+    hero.classList.remove("projets-active");
+  });
+
+  // Proj-num → nav (réciproque)
+  projNums.addEventListener("mouseenter", function () {
+    hero.classList.add("nums-active");
+  });
+  projNums.addEventListener("mouseleave", function () {
+    hero.classList.remove("nums-active");
+  });
+  projNums.addEventListener("focusin", function () {
+    hero.classList.add("nums-active");
+  });
+  projNums.addEventListener("focusout", function () {
+    hero.classList.remove("nums-active");
+  });
+})();
+
 // ===================== MOTS-CLÉS SURLIGNÉS — RÉVÉLATION AU SCROLL =====================
 // Idée du 20/06 : chaque <mark> du bloc À propos reste transparent par défaut, puis se
 // surligne brièvement (comme un curseur qui passe) au moment où il entre dans le champ de
@@ -190,13 +240,17 @@
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           marks.forEach(function (mark, index) {
+            // Retirer puis remettre la classe pour forcer le redémarrage de l'animation
+            mark.classList.remove("mark-pulse");
+            // Force reflow pour réinitialiser l'animation
+            void mark.offsetWidth;
             mark.style.setProperty(
               "--pulse-delay",
               index * STAGGER_SECONDS + "s",
             );
             mark.classList.add("mark-pulse");
           });
-          observer.unobserve(entry.target);
+          // Ne pas unobserve : on veut que ça redémarre à chaque passage
         }
       });
     },
@@ -248,6 +302,33 @@
       .finally(function () {
         if (submitBtn) submitBtn.disabled = false;
       });
+  });
+})();
+
+// ===================== COMPÉTENCES — ANIMATION STAGGER =====================
+(function () {
+  var items = document.querySelectorAll(".comp-item");
+  if (!items.length) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    items.forEach(function (el) { el.classList.add("is-visible"); });
+    return;
+  }
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        var idx = parseInt(el.getAttribute("data-idx"), 10);
+        setTimeout(function () {
+          el.classList.add("is-visible");
+        }, idx * 90);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  items.forEach(function (el, i) {
+    el.setAttribute("data-idx", i);
+    observer.observe(el);
   });
 })();
 
