@@ -149,7 +149,7 @@ button {
   display: none;
   margin-top: 10px;
   margin-left: auto;
-  margin-right: -4px; /* léger décalage pour centrer sous la date */
+  margin-right: -4px;
   color: var(--color-muted);
   transition:
     color 0.2s ease,
@@ -361,8 +361,7 @@ button {
 }
 
 /* ===================== LOGO O.B. — ANIMATION CSS PURE ===================== */
-/* Tracé exact validé le 18/06 : O (0.3s→1.7s) → point → B en 3 segments → point → "développeur web" lettre par lettre.
-   Fonctionne sans JS (contrairement au menu) : pure CSS, donc jamais de logo invisible si le script échoue. */
+/* Fonctionne sans JS (contrairement au menu) : pure CSS, donc jamais de logo invisible si le script échoue. */
 svg .logo-path {
   fill: none;
   stroke: var(--color-text);
@@ -705,12 +704,22 @@ section h2 {
 }
 
 /* ===================== MOTS-CLÉS SURLIGNÉS (lecture en diagonale) ===================== */
-/* Test 20/06 : accent moutarde réutilisé en surlignage de texte (dérogation ponctuelle
-   à la règle "moutarde jamais en texte courant"). Couleur de texte fixée via
-   --color-on-accent (pas --color-text) pour garantir le contraste en mode sombre :
-   7,3:1 avec --color-on-accent contre 2,1:1 si on avait gardé --color-text. */
+
 #a-propos p {
   max-width: 68ch;
+}
+.lien-demo {
+  display: inline-block;
+  margin-top: calc(var(--spacing-unit) * 0.5);
+  font-weight: 700;
+  color: var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 1px;
+  transition: transform 0.15s ease;
+}
+.lien-demo:hover,
+.lien-demo:focus-visible {
+  transform: translateX(4px);
 }
 
 mark {
