@@ -945,13 +945,18 @@ mark {
 
 /* ===================== COMPÉTENCES — ANIMATION ENTRÉE ===================== */
 .comp-item {
+  opacity: 1;
+  transform: none;
+}
+
+.js-ready .comp-item {
   opacity: 0;
   transform: translateX(-12px);
   transition:
     opacity 0.45s ease,
     transform 0.45s ease;
 }
-.comp-item.is-visible {
+.js-ready .comp-item.is-visible {
   opacity: 1;
   transform: translateX(0);
 }

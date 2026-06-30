@@ -1,3 +1,5 @@
+document.documentElement.classList.add("js-ready");
+
 // ===================== MODE SOMBRE =====================
 // Respecte la préférence système au premier chargement, puis mémorise
 // le choix de la personne dans localStorage pour ses visites suivantes.
@@ -310,21 +312,26 @@
   var items = document.querySelectorAll(".comp-item");
   if (!items.length) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    items.forEach(function (el) { el.classList.add("is-visible"); });
+    items.forEach(function (el) {
+      el.classList.add("is-visible");
+    });
     return;
   }
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        var el = entry.target;
-        var idx = parseInt(el.getAttribute("data-idx"), 10);
-        setTimeout(function () {
-          el.classList.add("is-visible");
-        }, idx * 90);
-        observer.unobserve(el);
-      }
-    });
-  }, { threshold: 0.2 });
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var idx = parseInt(el.getAttribute("data-idx"), 10);
+          setTimeout(function () {
+            el.classList.add("is-visible");
+          }, idx * 90);
+          observer.unobserve(el);
+        }
+      });
+    },
+    { threshold: 0.2 },
+  );
 
   items.forEach(function (el, i) {
     el.setAttribute("data-idx", i);
