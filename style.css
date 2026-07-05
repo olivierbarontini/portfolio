@@ -559,27 +559,15 @@ svg .l-web {
     top: calc(var(--spacing-unit) * 4);
     left: calc(var(--spacing-unit) * 4);
     inset: auto;
-    background: rgba(210, 207, 199, 0.65);
-    backdrop-filter: none;
     flex-direction: column;
     align-items: flex-start;
     padding: 14px 18px;
-    border-radius: 6px;
     gap: 10px;
     transform-origin: top left;
-    transition:
-      transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-      background 0.3s ease;
-  }
-  [data-theme="dark"] .hero-nav {
-    background: rgba(58, 57, 54, 0.65);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   .hero-nav:hover {
     transform: scale(1.03);
-    background: rgba(200, 197, 188, 0.8);
-  }
-  [data-theme="dark"] .hero-nav:hover {
-    background: rgba(65, 64, 60, 0.75);
   }
   .hero-nav ul {
     flex-direction: column;
@@ -736,11 +724,13 @@ mark {
    Sans JS, mouvement réduit, OU mode sombre : le mark reste statique (règle de base ci-dessus,
    surlignage permanent), jamais d'animation forcée. Mode sombre volontairement non concerné par
    le test du 20/06 — décision du 20/06 : on n'y touche pas. */
-.has-mark-animation:not([data-theme="dark"]) #a-propos mark {
+.has-mark-animation:not([data-theme="dark"]) #a-propos mark,
+.has-mark-animation:not([data-theme="dark"]) #parcours mark {
   background: transparent;
   color: var(--color-text);
 }
-.has-mark-animation:not([data-theme="dark"]) #a-propos mark.mark-pulse {
+.has-mark-animation:not([data-theme="dark"]) #a-propos mark.mark-pulse,
+.has-mark-animation:not([data-theme="dark"]) #parcours mark.mark-pulse {
   animation: markPulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   animation-delay: var(--pulse-delay, 0s);
 }
@@ -763,7 +753,8 @@ mark {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .has-mark-animation:not([data-theme="dark"]) #a-propos mark {
+  .has-mark-animation:not([data-theme="dark"]) #a-propos mark,
+  .has-mark-animation:not([data-theme="dark"]) #parcours mark {
     background: var(--color-mark-bg);
     color: var(--color-on-accent);
     animation: none !important;
@@ -777,13 +768,15 @@ mark {
 /* ===================== PROJETS (section détaillée) ===================== */
 #projets article {
   border-bottom: 1px solid var(--color-line);
+  padding-bottom: calc(var(--spacing-unit) * 3);
 }
 
 .projet-card {
   display: flex;
   flex-direction: column;
   gap: calc(var(--spacing-unit) * 2);
-  padding: calc(var(--spacing-unit) * 3) 0;
+  padding: 0;
+  margin-top: calc(var(--spacing-unit) * 1);
   text-decoration: none;
   color: var(--color-text);
 }
@@ -1096,4 +1089,109 @@ footer nav a {
 footer nav a:hover,
 footer nav a:focus-visible {
   border-bottom: 2px solid var(--color-accent);
+}
+
+/* ===================== PROJETS — LIGNE NUMÉRO + TOGGLE "[ EN SAVOIR + ]" ===================== */
+/* Le numéro de projet et le déclencheur sortent du lien-carte : le numéro n'est donc plus
+   cliquable en lui-même, seul le bouton l'est. Nécessaire techniquement : le contenu déplié
+   doit s'afficher sous toute la carte (image comprise), trop loin du numéro pour rester dans
+   un seul <details> — d'où un bouton + une zone contrôlée en JS (voir script.js),
+   sur le même principe que le bouton burger déjà utilisé sur le site. */
+
+.projet-numero-ligne {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: calc(var(--spacing-unit) * 2);
+  padding-top: calc(var(--spacing-unit) * 3);
+}
+
+#projets article:first-child .projet-numero-ligne {
+  padding-top: 0;
+}
+
+.projet-toggle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--color-muted-light);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.projet-toggle:hover,
+.projet-toggle:focus-visible {
+  color: var(--color-accent);
+}
+
+.projet-toggle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.projet-panel {
+  margin-top: calc(var(--spacing-unit) * 1);
+  font-family: var(--font-mono);
+}
+
+.projet-panel dl {
+  max-width: 560px;
+}
+
+.projet-panel dt {
+  font-weight: 700;
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  margin-top: calc(var(--spacing-unit) * 2);
+}
+
+.projet-panel dt:first-child {
+  margin-top: 0;
+}
+
+.projet-panel dd {
+  margin: calc(var(--spacing-unit) * 0.5) 0 0;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.projet-audit-img {
+  max-width: 100%;
+  border: 1px solid var(--color-line);
+  border-radius: var(--border-radius);
+  margin-top: calc(var(--spacing-unit) * 1);
+}
+
+/* ===================== MON PARCOURS ===================== */
+.parcours-liste {
+  list-style: none;
+}
+
+.parcours-item {
+  padding: calc(var(--spacing-unit) * 2.5) 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.parcours-item:last-child {
+  border-bottom: none;
+}
+
+.parcours-date {
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  margin: 0 0 calc(var(--spacing-unit) * 0.75) 0;
+  text-transform: uppercase;
+}
+
+.parcours-texte {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  max-width: 620px;
 }

@@ -208,58 +208,93 @@ document.documentElement.classList.add("js-ready");
   });
 })();
 
-// ===================== MOTS-CLÉS SURLIGNÉS — RÉVÉLATION AU SCROLL =====================
-// Idée du 20/06 : chaque <mark> du bloc À propos reste transparent par défaut, puis se
-// surligne brièvement (comme un curseur qui passe) au moment où il entre dans le champ de
-// vision en scrollant, avant de s'effacer pour laisser place au mot suivant.
+// ===================== MOTS-CLÉS SURLIGNÉS — RÉVÉLATION AU SCROLL + AU CLIC NAV =====================
+// Idée du 20/06 : chaque <mark> des blocs À propos et Mon Parcours reste transparent par
+// défaut, puis se surligne brièvement (comme un curseur qui passe) avant de s'effacer pour
+// laisser place au mot suivant. Chaque section anime ses propres <mark> indépendamment.
+//
+// Deux déclencheurs distincts, une seule fonction d'animation (animateMarks) :
+//  1. Clic sur un lien de nav vers #a-propos ou #parcours → déclenchement explicite et
+//     garanti, indépendant du scroll (on sait exactement quelle section est visée).
+//  2. Scroll → un IntersectionObserver détecte le passage par une bande centrale de l'écran
+//     (rootMargin réduit la zone d'observation à ~30% au milieu du viewport), plutôt que la
+//     simple entrée dans le viewport entier. Ça force un vrai cycle sortie/entrée à chaque
+//     passage, dans les deux sens de scroll — corrige le cas où une section reste
+//     partiellement visible en haut ou en bas de l'écran sans jamais "sortir" complètement,
+//     ce qui empêchait un nouveau déclenchement avec l'ancienne détection plein viewport.
+//
 // Repli accessible : si JS absent OU prefers-reduced-motion actif, le mark reste surligné
 // en permanence (style statique défini dans style.css), jamais d'animation forcée.
 
 (function () {
-  var section = document.getElementById("a-propos");
-  var marks = section ? section.querySelectorAll("mark") : [];
-  if (!section || !marks.length) return;
+  var groups = ["a-propos", "parcours"]
+    .map(function (id) {
+      var section = document.getElementById(id);
+      if (!section) return null;
+      var marks = section.querySelectorAll("mark");
+      if (!marks.length) return null;
+      return { id: id, section: section, marks: marks };
+    })
+    .filter(Boolean);
+
+  if (!groups.length) return;
 
   var reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
   if (reduceMotion) return; // on garde le surlignage statique, pas d'animation
 
-  document.documentElement.classList.add("has-mark-animation");
+  if (!("IntersectionObserver" in window)) return; // idem : pas de support, pas d'animation
 
-  if (!("IntersectionObserver" in window)) {
-    document.documentElement.classList.remove("has-mark-animation");
-    return;
-  }
+  document.documentElement.classList.add("has-mark-animation");
 
   var STAGGER_SECONDS = 0.7; // décalage entre chaque mot pour un balayage séquentiel
 
-  // On observe la section entière (pas chaque mark séparément) : sur un grand écran où
-  // tous les mots sont déjà visibles en même temps, ça évite qu'ils se déclenchent tous
-  // ensemble — le décalage (--pulse-delay) recrée l'effet "un mot après l'autre".
+  function animateMarks(marks) {
+    marks.forEach(function (mark, index) {
+      // Retirer puis remettre la classe pour forcer le redémarrage de l'animation
+      mark.classList.remove("mark-pulse");
+      // Force reflow pour réinitialiser l'animation
+      void mark.offsetWidth;
+      mark.style.setProperty("--pulse-delay", index * STAGGER_SECONDS + "s");
+      mark.classList.add("mark-pulse");
+    });
+  }
+
+  function triggerById(id) {
+    var group = groups.filter(function (g) {
+      return g.id === id;
+    })[0];
+    if (group) animateMarks(group.marks);
+  }
+
+  // ---- Déclencheur 1 : clic sur un lien de nav vers #a-propos ou #parcours ----
+  document
+    .querySelectorAll('a[href="#a-propos"], a[href="#parcours"]')
+    .forEach(function (link) {
+      link.addEventListener("click", function () {
+        triggerById(link.getAttribute("href").slice(1));
+      });
+    });
+
+  // ---- Déclencheur 2 : passage par la bande centrale de l'écran au scroll ----
   var observer = new IntersectionObserver(
     function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          marks.forEach(function (mark, index) {
-            // Retirer puis remettre la classe pour forcer le redémarrage de l'animation
-            mark.classList.remove("mark-pulse");
-            // Force reflow pour réinitialiser l'animation
-            void mark.offsetWidth;
-            mark.style.setProperty(
-              "--pulse-delay",
-              index * STAGGER_SECONDS + "s",
-            );
-            mark.classList.add("mark-pulse");
-          });
-          // Ne pas unobserve : on veut que ça redémarre à chaque passage
-        }
+        if (!entry.isIntersecting) return;
+        var group = groups.filter(function (g) {
+          return g.section === entry.target;
+        })[0];
+        if (group) animateMarks(group.marks);
+        // Ne pas unobserve : on veut que ça redémarre à chaque passage
       });
     },
-    { threshold: 0.3 },
+    { threshold: 0, rootMargin: "-35% 0px -35% 0px" },
   );
 
-  observer.observe(section);
+  groups.forEach(function (group) {
+    observer.observe(group.section);
+  });
 })();
 
 // ===================== FORMULAIRE DE CONTACT (Web3Forms) =====================
@@ -304,6 +339,28 @@ document.documentElement.classList.add("js-ready");
       .finally(function () {
         if (submitBtn) submitBtn.disabled = false;
       });
+  });
+})();
+
+// ===================== PROJETS — TOGGLE "[ EN SAVOIR + ]" =====================
+// Un bouton par projet (aligné avec le numéro) ouvre/ferme un panneau de détails
+// affiché plus bas, sous la carte. Même logique que le bouton burger : aria-expanded
+// + attribut hidden natif, pas de librairie, pas d'animation forcée.
+
+(function () {
+  var toggles = document.querySelectorAll(".projet-toggle");
+  if (!toggles.length) return;
+
+  toggles.forEach(function (toggle) {
+    var panel = document.getElementById(toggle.getAttribute("aria-controls"));
+    if (!panel) return;
+
+    toggle.addEventListener("click", function () {
+      var isOpen = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+      panel.hidden = isOpen;
+      toggle.textContent = isOpen ? "[ en savoir + ]" : "[ replier − ]";
+    });
   });
 })();
 

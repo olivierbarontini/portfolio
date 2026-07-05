@@ -66,13 +66,16 @@
             <a href="#a-propos"><span class="nav-dash">—</span>à propos</a>
           </li>
           <li>
-            <a href="#projets" id="nav-projets" class="nav-link-projets"
-              ><span class="nav-dash">—</span>projets</a
-            >
+            <a href="#parcours"><span class="nav-dash">—</span>parcours</a>
           </li>
           <li>
             <a href="#competences"
               ><span class="nav-dash">—</span>compétences</a
+            >
+          </li>
+          <li>
+            <a href="#projets" id="nav-projets" class="nav-link-projets"
+              ><span class="nav-dash">—</span>projets</a
             >
           </li>
           <li>
@@ -342,25 +345,6 @@
           <mark>l'automatisation et les outils IA</mark>.
         </p>
         <p>
-          Pendant 20 ans, j'ai travaillé dans le <mark>secteur social</mark>.
-          C'est en cherchant à simplifier des outils du quotidien que j'ai
-          découvert le développement web — et décidé de me reconvertir via une
-          formation OpenClassrooms.
-        </p>
-        <p>
-          Je maîtrise HTML, CSS, JavaScript et React côté front-end, ainsi que
-          Node.js, Express et MongoDB côté back-end. J'ai notamment développé
-          une <mark>API sécurisée</mark> avec authentification pour un site de
-          notation de livres, et une interface React fidèle à des maquettes
-          Figma pour une application de location.
-        </p>
-        <p>
-          Le projet qui me représente le mieux est <mark>Menu Maker</mark> : j'y
-          ai géré un projet de A à Z, des spécifications techniques au planning,
-          en appliquant une méthode structurée (Kanban, veille technologique) —
-          une rigueur directement héritée de mon ancien métier.
-        </p>
-        <p>
           <mark>Rendre service me guide</mark>. Mes solutions sont fiables,
           esthétiques et simples, toujours pensées avec empathie. Je veux
           utiliser les outils modernes, l'IA et l'automatisation, avec la même
@@ -375,19 +359,63 @@
           terme, je souhaite croiser ces compétences avec mon expertise du
           <mark>secteur petite enfance et médico-social</mark>.
         </p>
-        <p>
-          En parallèle de la formation, j'ai développé <mark>HelloNounou</mark>,
-          un moteur de calcul pour les assistantes maternelles conforme à la CCN
-          IDCC 3239 (11 modules, 127 tests unitaires).
-          <a
-            href="https://demo-hellonounou.netlify.app"
-            target="_blank"
-            rel="noopener"
-            class="lien-demo"
-          >
-            Voir une démo du moteur de calcul →
-          </a>
-        </p>
+      </section>
+
+      <!-- ===================== MON PARCOURS ===================== -->
+      <section id="parcours" aria-labelledby="titre-parcours">
+        <h2 id="titre-parcours">Mon parcours</h2>
+        <ol class="parcours-liste">
+          <li class="parcours-item">
+            <p class="parcours-date">20 ans</p>
+            <p class="parcours-texte">
+              Éducateur de jeunes enfants (EJE), protection de l'enfance —
+              Conseil Départemental de l'Ain. Accompagnement de familles,
+              coordination d'équipes, cadrage de dispositifs :
+              <mark>une expérience du terrain</mark> qui nourrit aujourd'hui ma
+              façon de cadrer un projet.
+            </p>
+          </li>
+          <li class="parcours-item">
+            <p class="parcours-date">Le déclic</p>
+            <p class="parcours-texte">
+              En cherchant à simplifier des
+              <mark>outils du quotidien</mark> pour des professionnels de la
+              petite enfance, découverte du développement web — et décision de
+              me reconvertir.
+            </p>
+          </li>
+          <li class="parcours-item">
+            <p class="parcours-date">2025–2026</p>
+            <p class="parcours-texte">
+              <mark>Formation développeur web</mark> chez OpenClassrooms
+              (titre RNCP) : HTML, CSS, JavaScript, React, Node.js, Express,
+              MongoDB, Git, tests unitaires, accessibilité numérique.
+            </p>
+          </li>
+          <li class="parcours-item">
+            <p class="parcours-date">En parallèle</p>
+            <p class="parcours-texte">
+              Développement de <mark>HelloNounou</mark>, un moteur de calcul
+              pour les assistantes maternelles conforme à la CCN IDCC 3239
+              (11 modules, 127 tests unitaires).
+              <a
+                href="https://demo-hellonounou.netlify.app"
+                target="_blank"
+                rel="noopener"
+                class="lien-demo"
+                >Voir une démo du moteur de calcul →</a
+              >
+            </p>
+          </li>
+          <li class="parcours-item">
+            <p class="parcours-date">Prochaine étape</p>
+            <p class="parcours-texte">
+              Spécialisation no-code, <mark>automatisation et IA appliquée</mark>,
+              avec l'objectif d'une niche pérenne dans le secteur social et les
+              collectivités territoriales.
+            </p>
+          </li>
+        </ol>
       </section>
 
       <div class="scroll-chevron" aria-hidden="true">
@@ -464,6 +492,17 @@
         <h2 id="titre-projets">Projets</h2>
 
         <article aria-labelledby="projet-menu-maker">
+          <div class="projet-numero-ligne">
+            <p class="projet-numero">1 — P7</p>
+            <button
+              type="button"
+              class="projet-toggle"
+              aria-expanded="false"
+              aria-controls="panel-menu-maker"
+            >
+              [ en savoir + ]
+            </button>
+          </div>
           <a
             href="https://olivierbarontini.github.io/portfolio/presentation.pdf"
             target="_blank"
@@ -471,7 +510,6 @@
             class="projet-card"
           >
             <div class="projet-info">
-              <p class="projet-numero">1 — P7</p>
               <h3 id="projet-menu-maker">Menu Maker</h3>
               <p class="projet-desc">
                 Spécifications techniques et planification d'un projet client,
@@ -491,9 +529,57 @@
               />
             </div>
           </a>
+          <div class="projet-panel" id="panel-menu-maker" hidden>
+            <dl>
+              <dt>Contexte</dt>
+              <dd>
+                Commande fictive d'un client (Qwenta) pour une application de
+                génération de menus. Contrairement aux autres projets du
+                parcours, celui-ci portait sur la conduite de projet en amont,
+                pas sur le développement.
+              </dd>
+              <dt>Objectifs</dt>
+              <dd>
+                Cadrer un besoin flou, produire un backlog et un planning
+                réalistes, et réaliser une veille technologique argumentée
+                pour orienter les choix techniques du client.
+              </dd>
+              <dt>Stack / outils</dt>
+              <dd>Trello (méthode Agile Kanban), Feedly pour la veille.</dd>
+              <dt>Compétences développées</dt>
+              <dd>
+                Cadrage fonctionnel, découpage Agile en user stories,
+                argumentation de choix techniques face à un besoin métier,
+                vulgarisation à destination d'un client.
+              </dd>
+              <dt>Résultats</dt>
+              <dd>
+                Backlog, planning et veille livrés et validés dans le cadre du
+                parcours. Présentation consultable en ligne (lien ci-dessus).
+              </dd>
+              <dt>Perspectives d'amélioration</dt>
+              <dd>
+                Ajouter un prototype cliquable (Figma) pour valider les choix
+                UX avant développement, et formaliser des critères
+                d'acceptation par user story pour faciliter une passation à
+                une équipe technique.
+              </dd>
+            </dl>
+          </div>
         </article>
 
         <article aria-labelledby="projet-mon-vieux-grimoire">
+          <div class="projet-numero-ligne">
+            <p class="projet-numero">2 — P6</p>
+            <button
+              type="button"
+              class="projet-toggle"
+              aria-expanded="false"
+              aria-controls="panel-grimoire"
+            >
+              [ en savoir + ]
+            </button>
+          </div>
           <a
             href="https://transcendent-pie-2d7998.netlify.app"
             target="_blank"
@@ -501,7 +587,6 @@
             class="projet-card"
           >
             <div class="projet-info">
-              <p class="projet-numero">2 — P6</p>
               <h3 id="projet-mon-vieux-grimoire">Mon Vieux Grimoire</h3>
               <p class="projet-desc">
                 Back-end d'un site de notation de livres — Node.js, Express,
@@ -521,9 +606,65 @@
               />
             </div>
           </a>
+          <div class="projet-panel" id="panel-grimoire" hidden>
+            <dl>
+              <dt>Contexte</dt>
+              <dd>
+                Développement du back-end complet d'un site de notation de
+                livres pour une chaîne de librairies fictive. Le front-end
+                était imposé par le cahier des charges ; l'enjeu portait sur
+                l'API, la base de données et la sécurité.
+              </dd>
+              <dt>Objectifs</dt>
+              <dd>
+                Concevoir une API REST sécurisée, modéliser une base de
+                données NoSQL adaptée, gérer l'upload d'images côté serveur,
+                et déployer une architecture réelle avec back-end et
+                front-end séparés.
+              </dd>
+              <dt>Stack</dt>
+              <dd>
+                Node.js, Express, MongoDB Atlas, JWT (authentification),
+                Multer (upload de fichiers). Déploiement : Render (API) +
+                Netlify (front-end).
+              </dd>
+              <dt>Compétences développées</dt>
+              <dd>
+                Conception d'API REST, sécurisation d'une application
+                (authentification, protection des routes, validation des
+                entrées), modélisation MongoDB/Mongoose, gestion de deux
+                environnements de déploiement distincts (CORS, variables
+                d'environnement).
+              </dd>
+              <dt>Résultats</dt>
+              <dd>
+                Application fonctionnelle et déployée (lien ci-dessus) : API
+                sécurisée gérant l'authentification, le CRUD des livres et le
+                système de notation.
+              </dd>
+              <dt>Perspectives d'amélioration</dt>
+              <dd>
+                Le cold start du back-end sur Render (environ 50 secondes au
+                premier chargement) dégrade l'expérience utilisateur ; un
+                hébergeur avec instance toujours active réglerait ce point.
+                Ajouter aussi des tests automatisés sur les routes critiques.
+              </dd>
+            </dl>
+          </div>
         </article>
 
         <article aria-labelledby="projet-kasa">
+          <div class="projet-numero-ligne">
+            <p class="projet-numero">3 — P5</p>
+            <button
+              type="button"
+              class="projet-toggle"
+              aria-expanded="false"
+              aria-controls="panel-kasa"
+            >
+              [ en savoir + ]
+            </button>
+          </div>
           <a
             href="https://olivierbarontini.github.io/kasa/"
             target="_blank"
@@ -531,7 +672,6 @@
             class="projet-card"
           >
             <div class="projet-info">
-              <p class="projet-numero">3 — P5</p>
               <h3 id="projet-kasa">Kasa</h3>
               <p class="projet-desc">
                 Application de location d'appartements intégrée à partir de
@@ -551,9 +691,61 @@
               />
             </div>
           </a>
+          <div class="projet-panel" id="panel-kasa" hidden>
+            <dl>
+              <dt>Contexte</dt>
+              <dd>
+                Intégration front-end d'une application de location de
+                logements type Airbnb, à partir de maquettes Figma imposées.
+                Premier projet du parcours utilisant React.
+              </dd>
+              <dt>Objectifs</dt>
+              <dd>
+                Intégrer fidèlement les maquettes en composants réutilisables,
+                gérer la navigation entre les pages, et mettre en place un
+                déploiement automatisé.
+              </dd>
+              <dt>Stack</dt>
+              <dd>
+                React (Vite), React Router, Sass. Déploiement : GitHub Pages
+                via GitHub Actions (CI/CD).
+              </dd>
+              <dt>Compétences développées</dt>
+              <dd>
+                Découpage d'une interface en composants React, routing côté
+                client (routes dynamiques et page d'erreur), mise en place
+                d'un pipeline de déploiement continu, résolution d'un problème
+                classique de déploiement React sur sous-chemin GitHub Pages.
+              </dd>
+              <dt>Résultats</dt>
+              <dd>
+                Application déployée et fonctionnelle (lien ci-dessus).
+                Déploiement automatisé : chaque envoi de code déclenche un
+                build et une publication sans intervention manuelle.
+              </dd>
+              <dt>Perspectives d'amélioration</dt>
+              <dd>
+                Ajouter des tests unitaires sur les composants, améliorer
+                l'accessibilité au clavier des éléments interactifs
+                (accordéons, galerie photo), et remplacer les données
+                statiques par un véritable appel API.
+              </dd>
+            </dl>
+          </div>
         </article>
 
         <article aria-labelledby="projet-nina-carducci">
+          <div class="projet-numero-ligne">
+            <p class="projet-numero">4 — P4</p>
+            <button
+              type="button"
+              class="projet-toggle"
+              aria-expanded="false"
+              aria-controls="panel-nina-carducci"
+            >
+              [ en savoir + ]
+            </button>
+          </div>
           <a
             href="https://olivierbarontini.github.io/nina-carducci/"
             target="_blank"
@@ -561,7 +753,6 @@
             class="projet-card"
           >
             <div class="projet-info">
-              <p class="projet-numero">4 — P4</p>
               <h3 id="projet-nina-carducci">Nina Carducci</h3>
               <p class="projet-desc">
                 Débogage et optimisation d'un site de photographe — performance,
@@ -581,6 +772,55 @@
               />
             </div>
           </a>
+          <div class="projet-panel" id="panel-nina-carducci" hidden>
+            <dl>
+              <dt>Contexte</dt>
+              <dd>
+                Reprise d'un site vitrine existant présentant des problèmes de
+                performance et d'accessibilité. Le travail portait sur
+                l'audit et la correction, pas sur la création.
+              </dd>
+              <dt>Objectifs</dt>
+              <dd>
+                Identifier les causes de mauvaises performances et les
+                corriger, corriger les manquements d'accessibilité, et
+                documenter la démarche d'audit.
+              </dd>
+              <dt>Stack</dt>
+              <dd>
+                HTML / CSS / JavaScript vanilla. Outil d'audit : Lighthouse
+                (Chrome DevTools).
+              </dd>
+              <dt>Compétences développées</dt>
+              <dd>
+                Audit de performance web (poids des images, chargement,
+                rendu), audit et correction d'accessibilité (contrastes,
+                attributs alt, navigation clavier, sémantique HTML),
+                priorisation des corrections selon leur impact réel.
+              </dd>
+              <dt>Résultats</dt>
+              <dd>
+                Audit Lighthouse (Chrome DevTools, mode desktop, 05/07/2026) :
+                Performance 95, Accessibilité 100, Bonnes pratiques 96, SEO
+                100.
+              </dd>
+              <dd>
+                <img
+                  src="assets/projets/nina-carducci-lighthouse.png"
+                  alt="Rapport Lighthouse du site Nina Carducci : Performance 95, Accessibilité 100, Bonnes pratiques 96, SEO 100"
+                  loading="lazy"
+                  class="projet-audit-img"
+                />
+              </dd>
+              <dt>Perspectives d'amélioration</dt>
+              <dd>
+                Pousser l'optimisation des images vers un format moderne
+                (WebP/AVIF) avec chargement adaptatif, et ajouter un test
+                d'accessibilité automatisé en CI pour éviter les régressions
+                futures.
+              </dd>
+            </dl>
+          </div>
         </article>
       </section>
       <!-- ===================== CONTACT ===================== -->
