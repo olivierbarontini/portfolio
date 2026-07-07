@@ -20,3 +20,7 @@ HTML / CSS / JS vanilla — déployé sur GitHub Pages
 ## Lancement local
 
 Cloner le repo et ouvrir `index.html` dans un navigateur.
+
+## Contact
+
+[LinkedIn](https://www.linkedin.com/in/olivier-barontini-5407103a3) · [GitHub](https://github.com/olivierbarontini)
